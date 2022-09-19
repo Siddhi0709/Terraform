@@ -1,0 +1,36 @@
+terrafor
+{
+ required_providers{
+ vsphere= {
+ source ="hashicorp/vsphere"
+ version= ">2.0"
+ }
+ }
+ }
+ 
+ provider "vsphere"
+ {
+ user= "root"
+ password= "Siddhichincholikar"
+ vsphere_server = "spvca0001.pon.local"
+ }
+ 
+data"vsphere_datacenter" "dc" {}
+
+resource "vsphere_folder" "parent"
+{
+path= "VMWorld"
+type= "VM"
+datacenter_id = data.vphere_datacenter.dc.id
+}
+
+resource "vsphere_folder" "web" {
+path = "${vsphere_folder.parent.path}/web"
+type= "vm"
+datacenter_id = data.vsphere_datacenter.dc.id
+}
+ 
+ 
+ 
+ 
+ 
